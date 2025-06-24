@@ -1,31 +1,38 @@
+
 pipeline {
-    agent {
-        label 'master'
-    }
-    parameters {
-        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-
-        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
-
-        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-
-        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    }
+    agent any 
     stages {
-        stage('Example') {
+        stage('build') {
             steps {
-                echo "Hello ${params.PERSON}"
-
-                echo "Biography: ${params.BIOGRAPHY}"
-
-                echo "Toggle: ${params.TOGGLE}"
-
-                echo "Choice: ${params.CHOICE}"
-
-                echo "Password: ${params.PASSWORD}"
+                echo "building the code"
             }
         }
+        stage('codequality') {
+            steps {
+                 echo "checking the code quality"
+            }
+        }
+        stage('Dockerbuildnpush') {
+            steps {
+                echo "building the docker"    
+            }
+        }
+        stage('k8s') {
+            steps {
+                echo "deploying the image into k8s"
+            }
+        }
+        stage("deploytoproduction") {
+            options {
+                timeout(time: 300, unit: 'SECONDS')
+            }
+            input {
+                message  "doing deploying in production??????"
+                ok 'yes'
+                submitter 'Nagasaivardhan,devsai'
+            }
+           
+        }
+        
     }
 }
