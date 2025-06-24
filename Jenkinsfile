@@ -1,4 +1,3 @@
-
 pipeline {
     agent any 
     stages {
@@ -30,6 +29,9 @@ pipeline {
                 message  "doing deploying in production??????"
                 ok 'yes'
                 submitter 'Nagasaivardhan,devsai'
+            }
+            steps {
+                echo "deploy the production"
             }
            
         }
